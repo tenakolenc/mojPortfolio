@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Custom Checkbox with CSS and jQuery</title>
+<style type="text/css">
+
+.custom-checkbox{
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+        top: 3px;
+        background: url("checkbox.png") no-repeat;
+    }
+    .custom-checkbox:hover{            
+        background: url("checkbox-hover.png") no-repeat;
+    }
+    .custom-checkbox.selected{
+        background: url("checkbox-selected.png") no-repeat;
+    }
+    .custom-checkbox input[type="checkbox"]{
+        margin: 1px;
+        position: absolute;
+        z-index: 2;            
+        cursor: pointer;
+        outline: none;
+        opacity: 0;
+        /* CSS hacks for older browsers */
+        _noFocusLine: expression(this.hideFocus=true); 
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+        filter: alpha(opacity=0);
+        -khtml-opacity: 0;
+        -moz-opacity: 0;
+    }
+    /* Let's Beautify Our Form */
+    form{
+        margin: 20px;
+    }
+    label{
+        display: block;
+        padding: 2px 0;
+    }
+    input[type="submit"]{
+        float: left;
+        background: #f2f2f2;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px;
+        margin-top: 20px;
+        padding: 4px 10px;
+        cursor: pointer;
+        outline: none;
+    }
+    input[type="submit"]:hover{
+        color: #fff;
+        border-color: #1b7aa9;
+        background-color: #239fdb;
+    }
+
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+    function customCheckbox(checkboxName){
+        var checkbox = $('input[name="'+ checkboxName +'"]');
+        $(checkbox).each(function(){
+            $(this).wrap( "<span class='custom-checkbox'></span>" );
+            if($(this).is(':checked')){
+                $(this).parent().addClass("selected");
+            }
+        });
+        $(checkbox).click(function(){
+            if($(this).is(':checked')){
+                $(this).parent().addClass("selected");
+            }
+            $(checkbox).not(this).each(function(){
+                $(this).parent().removeClass("selected");
+            });
+        });
+    }
+    $(document).ready(function (){
+        customCheckbox("browser");
+        customCheckbox("search-engine");            
+        customCheckbox("confirm");
+    })
+</script>
+</head>
+<body>
+    <form action="action.php" method="post">
+        <h3>What Is Your Favorite Web Browser</h3>
+        <label>
+            <input type="checkbox" checked="checked" name="browser" value="firefox" span class="custom-checkbox"> Firefox
+        </label>
+        <label>
+            <input type="checkbox" name="browser" value="chrome" span class="custom-checkbox"> Chrome
+        </label>
+        <label> 
+            <input type="checkbox" name="browser" value="safari" span class="custom-checkbox"> Safari
+        </label> 
+        
+        <h3>What Is Your Favorite Search Engine</h3>
+        <label>
+            <input type="checkbox" name="search-engine" value="google" checked="checked" span class="custom-checkbox"> Google
+        </label>
+        <label>  
+             <input type="checkbox" name="search-engine" value="yahoo" span class="custom-checkbox"> Yahoo
+        </label>
+        <label> 
+             <input type="checkbox" name="search-engine" value="bing" span class="custom-checkbox"> Bing
+        </label>     
+        
+        <h3>Are You Sure?</h3>
+        <label><input type="checkbox" name="confirm" checked="checked" value="yes"> Yes</label>
+        <label><input type="checkbox" name="confirm" value="no"> No</label>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
